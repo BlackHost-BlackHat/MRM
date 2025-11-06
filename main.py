@@ -1,10 +1,23 @@
 from fastapi import FastAPI
-
+from pydantic import BaseModel
 app = FastAPI()	# Creates application instance
+
+class Item(BaseModel):
+    name:str
+    price:float
+    description: str= None
 
 @app.get("/") #@-decorator <_takes the function below and does something with it
 def read_root():
     return {"message": "Hello World"}
+    
+@app.get("/search/")
+def search_items(q: str, max_results: int=10):
+    return {"query": q, "limit": max_results}
+
+@app.post("/items/")
+def create_item(item: Item):
+     return {"created": item.name, "total": item.price * 1.1}
 
 @app.get("/items/{item_id}")
 def read_item(item_id: int):
@@ -74,31 +87,8 @@ def read_item(item_id: int):
 #    - Apply default values (is_active defaults to True if not provided)
 #    - Return clear error messages for each field that fails validation
 
-# 4. **Try It Yourself - Learning by Doing**
-#
-#    Step 1: Start the server
-#    $ uvicorn main:app --reload
-#
-#    Step 2: Test the working endpoint
-#    Visit: http://127.0.0.1:8000/items/42
-#    Result: {"item_id": 42} ✓
-#
-#    Step 3: Test validation (intentionally break it!)
-#    Visit: http://127.0.0.1:8000/items/hello
-#    Result: Error message explaining "hello" is not a valid integer ✓
-#
-#    Step 4: Explore auto-generated docs
-#    Visit: http://127.0.0.1:8000/docs
-#    - See all your endpoints listed
-#    - Click "Try it out" to test them interactively
-#    - See the expected parameter types and response formats
-#
-#    Step 5: See alternative docs format
-#    Visit: http://127.0.0.1:8000/redoc
-#    - Beautiful, clean documentation view
-#    - All generated automatically from your code!
 
-# 5. **What's Next: Async/Await (Day 2 Preview)**
+# 4. **What's Next: Async/Await (Day 2 Preview)**
 #
 #    The next step in your learning is understanding async/await.
 #    This is crucial when your API needs to wait for external services:
