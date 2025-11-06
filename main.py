@@ -1,8 +1,9 @@
-from fastapi import FastAPI
-from pydantic import BaseModel, EmailStr
 from typing import Optional
 
-app = FastAPI()	# Creates application instance
+from fastapi import FastAPI
+from pydantic import BaseModel, EmailStr
+
+app = FastAPI()  # Creates application instance
 
 
 # Pydantic models for request/response validation
@@ -19,9 +20,11 @@ class User(BaseModel):
     age: int
     is_active: bool = True
 
-@app.get("/") #@-decorator <_takes the function below and does something with it
+
+@app.get("/")  # @-decorator <_takes the function below and does something with it
 def read_root():
     return {"message": "Hello World"}
+
 
 @app.get("/items/{item_id}")
 def read_item(item_id: int):
@@ -44,9 +47,7 @@ def create_user(user: User):
     return {"created_user": user, "status": "success"}
 
 
-
-
-	# Documentation:
+# Documentation:
 
 # ============================================
 # BEGINNER-FRIENDLY DEEP DIVE
