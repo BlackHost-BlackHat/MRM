@@ -1,27 +1,47 @@
 from fastapi import FastAPI
-from pydantic import BaseModel
+from pydantic import BaseModel, EmailStr
+from typing import Optional
+
 app = FastAPI()	# Creates application instance
 
+
+# Pydantic models for request/response validation
 class Item(BaseModel):
-    name:str
-    price:float
-    description: str= None
+    name: str
+    description: Optional[str] = None
+    price: float
+    tax: Optional[float] = None
+
+
+class User(BaseModel):
+    name: str
+    email: str
+    age: int
+    is_active: bool = True
 
 @app.get("/") #@-decorator <_takes the function below and does something with it
 def read_root():
     return {"message": "Hello World"}
-    
-@app.get("/search/")
-def search_items(q: str, max_results: int=10):
-    return {"query": q, "limit": max_results}
-
-@app.post("/items/")
-def create_item(item: Item):
-     return {"created": item.name, "total": item.price * 1.1}
 
 @app.get("/items/{item_id}")
 def read_item(item_id: int):
     return {"item_id": item_id}
+
+
+@app.post("/items")
+def create_item(item: Item):
+    """Create a new item using BaseModel validation"""
+    item_dict = item.dict()
+    if item.tax:
+        price_with_tax = item.price + item.tax
+        item_dict.update({"price_with_tax": price_with_tax})
+    return item_dict
+
+
+@app.post("/users")
+def create_user(user: User):
+    """Create a new user using BaseModel validation"""
+    return {"created_user": user, "status": "success"}
 
 
 
