@@ -20,11 +20,12 @@ wheels/
 .installed.cfg
 *.egg
 
-# Virtual Environment
+# Virtual Environments
 venv/
 ENV/
 env/
 .venv
+ml_env/
 
 # IDE
 .vscode/
@@ -32,6 +33,7 @@ env/
 *.swp
 *.swo
 *~
+.claude/settings.local.json
 
 # Environment variables
 .env
@@ -40,3 +42,12 @@ env/
 # OS
 .DS_Store
 Thumbs.db
+
+# Node.js (in case it's added back)
+node_modules/
+package-lock.json
+
+# Temporary files
+*.tmp
+*.log
+.cache/
