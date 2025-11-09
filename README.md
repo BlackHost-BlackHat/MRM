@@ -1,3 +1,14 @@
+---
+title: Streamlit Uvicorn Chatbot
+emoji: 🤖
+colorFrom: blue
+colorTo: purple
+sdk: streamlit
+sdk_version: "1.28.0"
+app_file: src/ui/app.py
+pinned: false
+---
+
 # MRM - FastAPI Project
 
 ## Auto-Formatting Setup ✨
